@@ -1,0 +1,48 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment files
+.env
+.env.*
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python package artifacts
+*.egg-info/
+.dist/
+build/
+dist/
+.eggs/
+
+# Model/cache artifacts
+*.bin
+*.pt
+*.ckpt
+*.model
+
+# Chroma / local DB data
+.chroma/
+chroma_db/
+
+# Logs
+*.log
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
