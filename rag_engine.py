@@ -4,6 +4,8 @@ from sentence_transformers import SentenceTransformer
 import chromadb
 from openai import OpenAI
 import pymupdf
+import re
+
 
 load_dotenv()
 
@@ -14,9 +16,25 @@ deepseek_client = OpenAI(
     base_url="https://api.deepseek.com"
 )
 
-def chunk_text(text, chunk_size):
+def chunk_text(text, chunk_size=1000, overlap=150):
     text = text.strip()
-    return [text[i:i+chunk_size] for i in range(0, len(text), chunk_size)]
+    sentences = re.split(r'(?<=[.!?])\s+', text)
+
+    chunks = []
+    current_chunk = ""
+
+    for sentence in sentences:
+        if len(current_chunk) + len(sentence) <= chunk_size:
+            current_chunk += sentence + " "
+        else:
+            chunks.append(current_chunk.strip())
+            overlap_text = current_chunk[-overlap:]
+            current_chunk = overlap_text + sentence + " "
+
+    if current_chunk.strip():
+        chunks.append(current_chunk.strip())
+
+    return chunks
 
 def build_index(pdf_path):
     doc = pymupdf.open(pdf_path)
